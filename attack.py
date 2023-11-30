@@ -65,9 +65,9 @@ def main():
         "--use_system_prompt", action="store_true", help="enable the system prompt"
     )
     parser.add_argument(
-        "--use_advbench",
+        "--use_existingdataset",
         action="store_true",
-        help="use the advbench dataset for evaluation",
+        help="use the existingdataset dataset for evaluation",
     )
     args = parser.parse_args()
 
@@ -81,8 +81,8 @@ def main():
         fname += "_with_sys_prompt"
     if args.n_sample > 1:
         fname += f"_sample_{args.n_sample}"
-    if args.use_advbench:
-        fname += "_advbench"
+    if args.use_existingdataset:
+        fname += "_existingdataset"
     if not os.path.exists(f"outputs/{fname}"):
         os.makedirs(f"outputs/{fname}")
 
@@ -107,11 +107,11 @@ def main():
     logging.info(f"Model size: {model.get_memory_footprint()/1e9}")
     logging.info(f"Model name: {fname}")
 
-    if args.use_advbench:
-        with open("./data/advbench.txt") as f:
-            lines = f.readlines()[:100]
+    if args.use_existingdataset:
+        with open("./data/existingdataset.txt") as f:
+            lines = f.readlines()
     else:
-        with open("./data/MaliciousInstruct.txt") as f:
+        with open("./data/newdataset.txt") as f:
             lines = f.readlines()
 
     # prepend sys prompt
