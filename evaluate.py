@@ -130,7 +130,7 @@ def run(
     model_name,
     config_set,
     n_sample,
-    use_advbench=False,
+    use_existingdataset=False,
     n_eval=100,
     matching_only=False,
     evaluator_path="",
@@ -167,14 +167,14 @@ def run(
     if "sys_prompt" not in model_name:
         if n_sample > 1:
             model_name += f"_sample_{n_sample}"
-    if use_advbench:
-        file_name += "_advbench"
-        model_name += "_advbench"
+    if use_existingdataset:
+        file_name += "_existingdataset"
+        model_name += "_existingdataset"
         config_set = ["temp", "topp", "topk"]
-        with open("./data/advbench.txt") as f:
-            prompts = f.readlines()[:100][:n_eval]
+        with open("./data/existingdataset.txt") as f:
+            prompts = f.readlines()[:n_eval]
     else:
-        with open("./data/MaliciousInstruct.txt") as f:
+        with open("./data/newdataset.txt") as f:
             prompts = f.readlines()[:n_eval]
     if matching_only:
         model_name += "_matching_only"
@@ -327,9 +327,9 @@ if __name__ == "__main__":
         "--n_eval", type=int, default=100, help="how many examples to evaluate"
     )
     parser.add_argument(
-        "--use_advbench",
+        "--use_existingdataset",
         action="store_true",
-        help="use the advbench dataset for evaluation",
+        help="use the existingdataset dataset for evaluation",
     )
     parser.add_argument(
         "--matching_only",
@@ -351,7 +351,7 @@ if __name__ == "__main__":
         args.model,
         configs[args.config],
         args.n_sample,
-        args.use_advbench,
+        args.use_existingdataset,
         args.n_eval,
         args.matching_only,
         args.evaluator_path,
