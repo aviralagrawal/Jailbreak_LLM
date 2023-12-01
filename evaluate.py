@@ -170,7 +170,7 @@ def run(
     if use_existingdataset:
         file_name += "_existingdataset"
         model_name += "_existingdataset"
-        config_set = ["temp", "topp", "topk"]
+        # config_set = ["temp", "topp", "topk"]
         with open("./data/existingdataset.txt") as f:
             prompts = f.readlines()[:n_eval]
     else:
